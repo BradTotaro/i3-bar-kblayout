@@ -1,0 +1,24 @@
+#!/bin/bash
+
+default="us"
+available="us,ua,es"
+
+
+next(){
+cur=`setxkbmap -query| grep layout | cut -d ':' -f2`
+setxkbmap $(echo "$available,$(echo $available | cut -f1 -d,)" | grep -o $(echo $cur,).* | cut -f2 -d,)
+}
+
+lang() {
+echo `setxkbmap -query| grep layout | cut -d ':' -f2`
+}
+
+
+
+case $BLOCK_BUTTON in
+  1) next ;; #Left Click , next language
+  3) setxkbmap $default;; # right click, set default.
+esac
+
+
+echo $(lang)
